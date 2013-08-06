@@ -16,6 +16,5 @@
     },
     "autoload": {
         "psr-0": { "Dawen\\Component\\StopWatch": "src/" }
-    },
-    "target-dir": "Dawen/Component/StopWatch"
+    }
 }
