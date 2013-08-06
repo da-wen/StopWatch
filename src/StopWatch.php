@@ -8,7 +8,7 @@
  */
 
 
-namespace Dawen\PhpLoggerTest\StopWatch;
+namespace Dawen\Component\StopWatch;
 
 class StopWatch
 {

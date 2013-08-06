@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Dawen\PhpLoggerTest\StopWatch;
+namespace Dawen\Component\StopWatch;
 
 class Period
 {
