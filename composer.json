@@ -1,0 +1,21 @@
+{
+    "name": "dawen/stopwatch",
+    "type": "library",
+    "description": "simple not very complex stopwatch",
+    "keywords": ["measurement","component"],
+    "homepage": "http://www.dawen.de",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Wendlandt",
+            "email": "dan.wendlandt@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "autoload": {
+        "psr-0": { "Dawen\\Component\\StopWatch": "src/" }
+    },
+    "target-dir": "Dawen/Component/StopWatch"
+}
