@@ -1,5 +1,5 @@
 {
-    "name": "dawen/stopwatch",
+    "name": "da-wen/StopWatch",
     "type": "library",
     "description": "simple not very complex stopwatch",
     "keywords": ["measurement","component"],
