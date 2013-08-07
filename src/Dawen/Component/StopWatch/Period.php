@@ -19,7 +19,7 @@ class Period
 
     public function __construct($sName = null)
     {
-        $this->fStarted = microtime(true);
+        $this->start();
         $this->sName = $sName;
     }
 
@@ -27,7 +27,7 @@ class Period
     {
         $_fDuration = $this->fEnd - $this->fStarted;
 
-        if(null === $iDecimals || !is_float($iDecimals))
+        if(null === $iDecimals || !is_float($_fDuration))
         {
             return $_fDuration;
         }
@@ -47,6 +47,11 @@ class Period
         return (null === $iDecimals || !is_float($this->fEnd) || null === $this->fEnd)
                     ? $this->fEnd
                     : number_format($this->fEnd, $iDecimals);
+    }
+
+    public function getName()
+    {
+        return $this->sName;
     }
 
     public function setName($sName)
