@@ -21,12 +21,13 @@ class StopWatch
             throw new \Exception('section doesn\'s exist');
         }
 
-        $_fDuration = 0;
         if(null !== $sSectionName)
         {
             return $this->getSectionDuration($this->aSections[$sSectionName], $iDecimals);
         }
 
+        $_fDuration = 0;
+;
         foreach($this->aSections as $_sSectionName => $_aPeriods)
         {
             $_fDuration += $this->getSectionDuration($_aPeriods);
@@ -41,7 +42,7 @@ class StopWatch
 
     }
 
-    public function getSection($sSectionName)
+    public function getSection($sSectionName = 'default')
     {
         if(!isset($this->aSections[$sSectionName]))
         {
@@ -56,23 +57,31 @@ class StopWatch
         return $this->aSections;
     }
 
-    public function lap($sSectionName, $sPeriodName = null)
+    public function lap($sSectionName = 'default', $sPeriodName = null)
     {
         if(!isset($this->aSections[$sSectionName]))
         {
             throw new \Exception('section doesn\'s exist');
         }
 
-        $this->stop($sSectionName);
+        try
+        {
+            $this->stop($sSectionName);
+        }
+        catch(\Exception $oException)
+        {
+            throw new \Exception('you can\'t call lap after stop');
+        }
+
         $this->start($sSectionName, $sPeriodName = null);
     }
 
-    public function start($sSectionName, $sPeriodName = null)
+    public function start($sSectionName = 'default', $sPeriodName = null)
     {
         $this->aSections[$sSectionName][] = new Period($sPeriodName);
     }
 
-    public function stop($sSectionName)
+    public function stop($sSectionName = 'default')
     {
         if(!isset($this->aSections[$sSectionName]))
         {
@@ -88,9 +97,13 @@ class StopWatch
         /** @var Period $_oPeriod */
         foreach($aPeriods as $_oPeriod)
         {
-            $_fDuration += $_oPeriod->getDuration($iDecimals);
+            $_fDuration += $_oPeriod->getDuration();
         }
 
+        if(null !== $iDecimals)
+        {
+            $_fDuration = number_format($_fDuration, $iDecimals);
+        }
         return $_fDuration;
     }
 

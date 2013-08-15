@@ -35,6 +35,18 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
         $this->oPeriod->stop();
         $this->assertTrue(is_float($this->oPeriod->getEnd()));
         $this->assertTrue(is_string($this->oPeriod->getEnd(5)));
+
+        $_oException = null;
+        try
+        {
+            $this->oStopWatch->lap();
+        }
+        catch(\Exception $_oException)
+        {
+
+        }
+        $this->assertNotNull($_oException);
+        $this->assertInstanceOf('Exception', $_oException);
     }
 
     public function testDuration()

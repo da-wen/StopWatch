@@ -66,6 +66,10 @@ class Period
 
     public function stop()
     {
+        if(null !== $this->fEnd)
+        {
+            throw new \Exception('stop time is already set');
+        }
         $this->fEnd = microtime(true);
     }
 
