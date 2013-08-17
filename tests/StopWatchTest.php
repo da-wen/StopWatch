@@ -76,6 +76,22 @@ class StopWatchTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($_aSection[0]->getEnd());
     }
 
+    public function testStopSectionException()
+    {
+        $this->oStopWatch->start();
+        try
+        {
+            $this->oStopWatch->stop('asd');
+        }
+        catch(\Exception $_oException)
+        {
+            $this->assertTrue(true);
+            return true;
+        }
+
+        $this->assertFalse(true);
+    }
+
     public function testLap()
     {
         $this->oStopWatch->start();
@@ -100,7 +116,21 @@ class StopWatchTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Exception', $_oException);
     }
 
-   
+   public function testLapSectionException()
+   {
+       $this->oStopWatch->start();
+       try
+       {
+           $this->oStopWatch->lap('asd');
+       }
+       catch(\Exception $_oException)
+       {
+           $this->assertTrue(true);
+           return true;
+       }
+
+       $this->assertFalse(true);
+   }
 
     public function testDuration()
     {
@@ -149,9 +179,13 @@ class StopWatchTest extends \PHPUnit_Framework_TestCase
 
 
         $_sAll = $this->oStopWatch->getDuration(null, 2);
+        $_sSectionDurationDecimals = $this->oStopWatch->getDuration('default', 3);
 
         $this->assertTrue(is_string($_sAll));
         $this->assertEquals(4, strlen($_sAll));
+
+        $this->assertTrue(is_string($_sSectionDurationDecimals));
+        $this->assertEquals(5, strlen($_sSectionDurationDecimals));
 
     }
 
@@ -179,5 +213,25 @@ class StopWatchTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse(true);
 
+    }
+
+    public function testMemory()
+    {
+        $this->oStopWatch->start();
+        usleep(1000);
+        for($i = 0; $i <= 10; $i++)
+        {
+            $_iRand = rand(1000, 1000000000000);
+            $_iTest = hash('sha256', $_iRand);
+            $this->oStopWatch->lap();
+            usleep(1000);
+        }
+
+        usleep(1000);
+        $this->oStopWatch->stop();
+
+
+        var_dump($this->oStopWatch->getSection());
+        die();
     }
 }

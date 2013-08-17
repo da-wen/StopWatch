@@ -17,6 +17,10 @@ class Period
 
     private $fEnd = null;
 
+    private $iStartMemoryUsage = null;
+
+    private $iEndMemoryUsage = null;
+
     public function __construct($sName = null)
     {
         $this->start();
@@ -42,6 +46,38 @@ class Period
                     : number_format($this->fStarted, $iDecimals);
     }
 
+    public function getMemoryUsage($bFormat = false)
+    {
+        $_iMemoryUsage = $this->iEndMemoryUsage - $this->iStartMemoryUsage;
+
+        if($bFormat)
+        {
+            return $this->formatMemoryUsage($_iMemoryUsage);
+        }
+
+        return $_iMemoryUsage;
+    }
+
+    public function getStartMemoryUsage($bFormat = false)
+    {
+        if($bFormat)
+        {
+            return $this->formatMemoryUsage($this->iStartMemoryUsage);
+        }
+
+        return $this->iStartMemoryUsage;
+    }
+
+    public function getEndMemoryUsage($bFormat = false)
+    {
+        if($bFormat)
+        {
+            return $this->formatMemoryUsage($this->iEndMemoryUsage);
+        }
+
+        return $this->iEndMemoryUsage;
+    }
+
     public function getEnd($iDecimals = null)
     {
         return (null === $iDecimals || !is_float($this->fEnd) || null === $this->fEnd)
@@ -62,6 +98,7 @@ class Period
     public function start()
     {
         $this->fStarted = microtime(true);
+        $this->iStartMemoryUsage = memory_get_usage();
     }
 
     public function stop()
@@ -70,7 +107,14 @@ class Period
         {
             throw new \Exception('stop time is already set');
         }
+        $this->iEndMemoryUsage = memory_get_usage();
         $this->fEnd = microtime(true);
+    }
+
+    private function formatMemoryUsage($iMemoryUsage)
+    {
+
+        return $iMemoryUsage;
     }
 
 }
