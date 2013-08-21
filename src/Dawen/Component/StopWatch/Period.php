@@ -27,16 +27,11 @@ class Period
         $this->sName = $sName;
     }
 
-    public function getDuration($iDecimals = null)
+    public function getDuration($iDecimals = 3, $bAddTimeUnit = false)
     {
         $_fDuration = $this->fEnd - $this->fStarted;
 
-        if(null === $iDecimals || !is_float($_fDuration))
-        {
-            return $_fDuration;
-        }
-
-        return number_format($_fDuration, $iDecimals);
+        return Util::getReadableTime($_fDuration, $bAddTimeUnit, $iDecimals);
     }
 
     public function getStarted($iDecimals = null)
@@ -52,7 +47,7 @@ class Period
 
         if($bFormat)
         {
-            return $this->formatMemoryUsage($_iMemoryUsage);
+            return Util::getReadableFileSize($_iMemoryUsage);
         }
 
         return $_iMemoryUsage;
@@ -62,7 +57,7 @@ class Period
     {
         if($bFormat)
         {
-            return $this->formatMemoryUsage($this->iStartMemoryUsage);
+            return Util::getReadableFileSize($this->iStartMemoryUsage);
         }
 
         return $this->iStartMemoryUsage;
@@ -72,7 +67,7 @@ class Period
     {
         if($bFormat)
         {
-            return $this->formatMemoryUsage($this->iEndMemoryUsage);
+            return Util::getReadableFileSize($this->iEndMemoryUsage);
         }
 
         return $this->iEndMemoryUsage;
@@ -109,12 +104,6 @@ class Period
         }
         $this->iEndMemoryUsage = memory_get_usage();
         $this->fEnd = microtime(true);
-    }
-
-    private function formatMemoryUsage($iMemoryUsage)
-    {
-
-        return $iMemoryUsage;
     }
 
 }

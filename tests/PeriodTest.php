@@ -35,29 +35,19 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
         $this->oPeriod->stop();
         $this->assertTrue(is_float($this->oPeriod->getEnd()));
         $this->assertTrue(is_string($this->oPeriod->getEnd(5)));
-
-        $_oException = null;
-        try
-        {
-            $this->oStopWatch->lap();
-        }
-        catch(\Exception $_oException)
-        {
-
-        }
-        $this->assertNotNull($_oException);
-        $this->assertInstanceOf('Exception', $_oException);
     }
 
     public function testDuration()
     {
-        $this->assertTrue(is_float($this->oPeriod->getDuration()));
+        $this->assertTrue(is_string($this->oPeriod->getDuration()));
         $this->assertTrue($this->oPeriod->getDuration() < 0);
         $this->oPeriod->stop();
         $this->assertTrue($this->oPeriod->getDuration() > 0);
-        $this->assertTrue(is_float($this->oPeriod->getDuration()));
+        $this->assertTrue(is_string($this->oPeriod->getDuration()));
         $this->assertTrue(is_string($this->oPeriod->getDuration(5)));
         $this->assertEquals(7, strlen($this->oPeriod->getDuration(5)));
+        $this->assertEquals(9, strlen($this->oPeriod->getDuration(5, true)));
+        $this->assertContains(' s', $this->oPeriod->getDuration(5, true));
     }
 
     public function testName()
@@ -66,6 +56,30 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
         $_sName = 'myTestName';
         $this->oPeriod->setName($_sName);
         $this->assertEquals($_sName, $this->oPeriod->getName());
+    }
+
+    public function testStartMemory()
+    {
+        $_iMemoryUsage = $this->oPeriod->getStartMemoryUsage();
+        $_sMemoryUsage = $this->oPeriod->getStartMemoryUsage(true);
+
+        $this->assertTrue(is_int($_iMemoryUsage));
+        $this->assertTrue(($_iMemoryUsage > 0));
+        $this->assertTrue(is_string($_sMemoryUsage));
+        $this->assertContains(' ', $_sMemoryUsage);
+    }
+
+    public function testEndMemory()
+    {
+
+        $this->oPeriod->stop();
+        $_iMemoryUsage = $this->oPeriod->getEndMemoryUsage();
+        $_sMemoryUsage = $this->oPeriod->getEndMemoryUsage(true);
+
+        $this->assertTrue(is_int($_iMemoryUsage));
+        $this->assertTrue(($_iMemoryUsage > 0));
+        $this->assertTrue(is_string($_sMemoryUsage));
+        $this->assertContains(' ', $_sMemoryUsage);
     }
 
 

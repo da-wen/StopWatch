@@ -159,8 +159,9 @@ class StopWatchTest extends \PHPUnit_Framework_TestCase
         $_fAll = $this->oStopWatch->getDuration();
         $_fSection = $this->oStopWatch->getDuration($_sSection);
 
-        $this->assertTrue(is_float($_fAll));
-        $this->assertTrue(is_float($_fSection));
+        $this->assertTrue(is_string($_fAll));
+        $this->assertTrue(is_string($_fSection));
+        $this->assertEquals(7, strlen($_fSection));
         $this->assertTrue($_fAll > $_fSection);
 
     }
@@ -179,13 +180,13 @@ class StopWatchTest extends \PHPUnit_Framework_TestCase
 
 
         $_sAll = $this->oStopWatch->getDuration(null, 2);
-        $_sSectionDurationDecimals = $this->oStopWatch->getDuration('default', 3);
+        $_sSectionDurationDecimals = $this->oStopWatch->getDuration('default', 5);
 
         $this->assertTrue(is_string($_sAll));
-        $this->assertEquals(4, strlen($_sAll));
+        $this->assertEquals(6, strlen($_sAll));
 
         $this->assertTrue(is_string($_sSectionDurationDecimals));
-        $this->assertEquals(5, strlen($_sSectionDurationDecimals));
+        $this->assertEquals(9, strlen($_sSectionDurationDecimals));
 
     }
 
@@ -231,7 +232,7 @@ class StopWatchTest extends \PHPUnit_Framework_TestCase
         $this->oStopWatch->stop();
 
 
-        var_dump($this->oStopWatch->getSection());
-        die();
+        //var_dump($this->oStopWatch->getSection());
+        //die();
     }
 }

@@ -14,7 +14,7 @@ class StopWatch
 {
     private $aSections = array();
 
-    public function getDuration($sSectionName = null, $iDecimals = null)
+    public function getDuration($sSectionName = null, $iDecimals = 3, $bAddTimeUnit = true)
     {
         if(null !== $sSectionName && !isset($this->aSections[$sSectionName]))
         {
@@ -23,20 +23,17 @@ class StopWatch
 
         if(null !== $sSectionName)
         {
-            return $this->getSectionDuration($this->aSections[$sSectionName], $iDecimals);
+            return $this->getSectionDuration($this->aSections[$sSectionName], $iDecimals, $bAddTimeUnit);
         }
 
         $_fDuration = 0;
 ;
         foreach($this->aSections as $_sSectionName => $_aPeriods)
         {
-            $_fDuration += $this->getSectionDuration($_aPeriods);
+            $_fDuration += $this->getSectionDuration($_aPeriods, $iDecimals);
         }
 
-        if(null !== $iDecimals)
-        {
-            $_fDuration = number_format($_fDuration, $iDecimals);
-        }
+        $_fDuration = Util::getReadableTime($_fDuration, $bAddTimeUnit ,$iDecimals);
 
         return $_fDuration;
 
@@ -90,20 +87,17 @@ class StopWatch
         end($this->aSections[$sSectionName])->stop();
     }
 
-    private function getSectionDuration(array $aPeriods, $iDecimals = null)
+    private function getSectionDuration(array $aPeriods, $iDecimals = 3, $bAddTimeUnit = false)
     {
         $_fDuration = 0;
 
         /** @var Period $_oPeriod */
         foreach($aPeriods as $_oPeriod)
         {
-            $_fDuration += $_oPeriod->getDuration();
+            $_fDuration += $_oPeriod->getDuration($iDecimals);
         }
 
-        if(null !== $iDecimals)
-        {
-            $_fDuration = number_format($_fDuration, $iDecimals);
-        }
+        $_fDuration = Util::getReadableTime($_fDuration, $bAddTimeUnit, $iDecimals);
         return $_fDuration;
     }
 
