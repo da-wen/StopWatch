@@ -15,15 +15,30 @@ class Util
         // adapted from code at http://aidanlister.com/repos/v/function.size_readable.php
         $_aSizes = array('bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
 
-        if ($sFormat === null) { $sFormat = '%01.2f %s'; }
+        if ($sFormat === null)
+        {
+            $sFormat = '%01.2f %s';
+        }
 
         $_sLastSizeString = end($_aSizes);
 
         foreach ($_aSizes as $_sSizeString) {
-            if ($iSize < 1024) { break; }
-            if ($_sSizeString != $_sLastSizeString) { $iSize /= 1024; }
+            if ($iSize < 1024)
+            {
+                break;
+            }
+
+            if ($_sSizeString != $_sLastSizeString)
+            {
+                $iSize /= 1024;
+            }
         }
-        if ($_sSizeString == $_aSizes[0]) { $sFormat = '%01d %s'; } // Bytes aren't normally fractional
+
+        if ($_sSizeString == $_aSizes[0])
+        {
+            $sFormat = '%01d %s';
+        } // Bytes aren't normally fractional
+
         return sprintf($sFormat, $iSize, $_sSizeString);
     }
 

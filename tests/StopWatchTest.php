@@ -216,14 +216,17 @@ class StopWatchTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testMemory()
+    public function testMemoryUsage()
     {
         $this->oStopWatch->start();
         usleep(1000);
-        for($i = 0; $i <= 10; $i++)
+        $_aTest = array();
+        for($i = 0; $i <= 1000; $i++)
         {
             $_iRand = rand(1000, 1000000000000);
             $_iTest = hash('sha256', $_iRand);
+            $_aTest[] = $_iTest;
+            $_aTest[] = $_iRand;
             $this->oStopWatch->lap();
             usleep(1000);
         }
@@ -231,8 +234,61 @@ class StopWatchTest extends \PHPUnit_Framework_TestCase
         usleep(1000);
         $this->oStopWatch->stop();
 
+        $_iMemoryUsage = $this->oStopWatch->getMemoryUsage(null, false);
+        $_sMemoryUsage = $this->oStopWatch->getMemoryUsage();
+        $_iMemoryUsageSection = $this->oStopWatch->getMemoryUsage('default', false);
+        $_sMemoryUsageSection = $this->oStopWatch->getMemoryUsage('default', true);
 
-        //var_dump($this->oStopWatch->getSection());
-        //die();
+
+        $this->assertTrue(is_int($_iMemoryUsage));
+        $this->assertTrue(($_iMemoryUsage > 0));
+
+        $this->assertTrue(is_string($_sMemoryUsage));
+
+        $this->assertTrue(is_int($_iMemoryUsageSection));
+        $this->assertTrue(($_iMemoryUsageSection > 0));
+
+        $this->assertTrue(is_string($_sMemoryUsageSection));
+
+        $this->assertEquals($_iMemoryUsage, $_iMemoryUsageSection);
+        $this->assertEquals($_sMemoryUsage, $_sMemoryUsageSection);
+
+        $this->oStopWatch->start('test');
+        $_sTest = 'blub';
+        $this->oStopWatch->stop('test');
+
+        $_iMemoryUsageTestSection = $this->oStopWatch->getMemoryUsage('test', false);
+
+        $this->assertTrue(($_iMemoryUsageTestSection > 0));
+        $this->assertTrue(($_iMemoryUsageSection > $_iMemoryUsageTestSection));
+
     }
+
+    public function testMemoryException()
+    {
+        $this->oStopWatch->start();
+        usleep(1000);
+        for($i = 0; $i <= 100; $i++)
+        {
+            $this->oStopWatch->lap();
+            usleep(1000);
+        }
+        usleep(1000);
+        $this->oStopWatch->stop();
+
+        try
+        {
+            $_sAll = $this->oStopWatch->getMemoryUsage('asd');
+        }
+        catch(\Exception $_oException)
+        {
+            $this->assertTrue(true);
+            return true;
+        }
+
+        $this->assertFalse(true);
+
+    }
+
+
 }

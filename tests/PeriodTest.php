@@ -82,5 +82,22 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
         $this->assertContains(' ', $_sMemoryUsage);
     }
 
+    public function testGetMemory()
+    {
+        $_aTest = array();
+        for($i = 0; $i <= 1000; $i++)
+        {
+            $_aTest[] = rand(1000, 10000000000);
+        }
+        $this->oPeriod->stop();
+
+        $_iMemoryUsage = $this->oPeriod->getMemoryUsage();
+        $_sMemoryUsage = $this->oPeriod->getMemoryUsage(true);
+
+        $this->assertTrue(is_int($_iMemoryUsage));
+        $this->assertTrue(($_iMemoryUsage > 0));
+        $this->assertTrue(is_string($_sMemoryUsage));
+        $this->assertContains(' kB', $_sMemoryUsage);
+    }
 
 }

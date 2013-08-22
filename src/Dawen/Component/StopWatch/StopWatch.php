@@ -33,9 +33,7 @@ class StopWatch
             $_fDuration += $this->getSectionDuration($_aPeriods, $iDecimals);
         }
 
-        $_fDuration = Util::getReadableTime($_fDuration, $bAddTimeUnit ,$iDecimals);
-
-        return $_fDuration;
+        return Util::getReadableTime($_fDuration, $bAddTimeUnit ,$iDecimals);
 
     }
 
@@ -52,6 +50,33 @@ class StopWatch
     public function getSections()
     {
         return $this->aSections;
+    }
+
+    public function getMemoryUsage($sSectionName = null, $bFormat = true)
+    {
+        if(null !== $sSectionName && !isset($this->aSections[$sSectionName]))
+        {
+            throw new \Exception('section doesn\'s exist');
+        }
+
+        if(null !== $sSectionName)
+        {
+            return $this->getSectionMemoryUsage($this->aSections[$sSectionName], $bFormat);
+        }
+
+        $_iMemoryUsage = 0;
+        foreach($this->aSections as $_sSectionName => $_aPeriods)
+        {
+            $_iMemoryUsage += $this->getSectionMemoryUsage($_aPeriods);
+        }
+
+        if($bFormat)
+        {
+            return Util::getReadableFileSize($_iMemoryUsage);
+        }
+
+        return $_iMemoryUsage;
+
     }
 
     public function lap($sSectionName = 'default', $sPeriodName = null)
@@ -97,8 +122,26 @@ class StopWatch
             $_fDuration += $_oPeriod->getDuration($iDecimals);
         }
 
-        $_fDuration = Util::getReadableTime($_fDuration, $bAddTimeUnit, $iDecimals);
-        return $_fDuration;
+        return Util::getReadableTime($_fDuration, $bAddTimeUnit, $iDecimals);
+    }
+
+    private function getSectionMemoryUsage(array $aPeriods, $bFormat = false)
+    {
+        $_iMemoryUsage = 0;
+
+        /** @var Period $_oPeriod */
+        foreach($aPeriods as $_oPeriod)
+        {
+            $_iMemoryUsage += $_oPeriod->getMemoryUsage();
+        }
+
+        if($bFormat)
+        {
+            return Util::getReadableFileSize($_iMemoryUsage);
+        }
+
+        return $_iMemoryUsage;
+
     }
 
 }
