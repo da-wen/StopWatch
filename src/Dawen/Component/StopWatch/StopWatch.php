@@ -12,8 +12,22 @@ namespace Dawen\Component\StopWatch;
 
 class StopWatch
 {
+    /** @var array  */
     private $aSections = array();
 
+    /**
+     * gets the duration of all sections or only one specified section
+     *
+     * @author dawen
+     * @since 2013-08-23
+     *
+     * @param null|string $sSectionName
+     * @param int $iDecimals
+     * @param bool $bAddTimeUnit
+     *
+     * @return string
+     * @throws \Exception
+     */
     public function getDuration($sSectionName = null, $iDecimals = 3, $bAddTimeUnit = true)
     {
         if(null !== $sSectionName && !isset($this->aSections[$sSectionName]))
@@ -37,6 +51,17 @@ class StopWatch
 
     }
 
+    /**
+     * returns an array of periods for a section
+     *
+     * @author dawen
+     * @since 2013-08-23
+     *
+     * @param string $sSectionName
+     *
+     * @return array
+     * @throws \Exception
+     */
     public function getSection($sSectionName = 'default')
     {
         if(!isset($this->aSections[$sSectionName]))
@@ -47,11 +72,32 @@ class StopWatch
         return $this->aSections[$sSectionName];
     }
 
+    /**
+     * returns an array of all sections
+     *
+     * @author dawen
+     * @since 2013-08-23
+     *
+     * @return array
+     */
     public function getSections()
     {
         return $this->aSections;
     }
 
+    /**
+     * gets memory usage for all sections or on specified sections.
+     * function returns an integer (bytes) or a formatted string
+     *
+     * @author dawen
+     * @since 2013-08-23
+     *
+     * @param null|string $sSectionName
+     * @param bool $bFormat
+     *
+     * @return int|null|string
+     * @throws \Exception
+     */
     public function getMemoryUsage($sSectionName = null, $bFormat = true)
     {
         if(null !== $sSectionName && !isset($this->aSections[$sSectionName]))
@@ -79,6 +125,18 @@ class StopWatch
 
     }
 
+    /**
+     * closed and opens a new period.
+     *
+     * @author dawen
+     * @since 2013-08-23
+     *
+     * @param string $sSectionName
+     * @param null|string $sPeriodName
+     *
+     * @return void
+     * @throws \Exception
+     */
     public function lap($sSectionName = 'default', $sPeriodName = null)
     {
         if(!isset($this->aSections[$sSectionName]))
@@ -98,11 +156,31 @@ class StopWatch
         $this->start($sSectionName, $sPeriodName = null);
     }
 
+    /**
+     * starts a period (sets start microtime and memory usage)
+     *
+     * @author dawen
+     * @since 2013-08-23
+     *
+     * @param string $sSectionName
+     * @param null|string $sPeriodName
+     */
     public function start($sSectionName = 'default', $sPeriodName = null)
     {
         $this->aSections[$sSectionName][] = new Period($sPeriodName);
     }
 
+    /**
+     * stops a period (sets start microtime and memroy usage)
+     *
+     * @author dawen
+     * @since 2013-08-23
+     *
+     * @param string $sSectionName
+     *
+     * @throws \Exception
+     * @return void
+     */
     public function stop($sSectionName = 'default')
     {
         if(!isset($this->aSections[$sSectionName]))
@@ -112,6 +190,18 @@ class StopWatch
         end($this->aSections[$sSectionName])->stop();
     }
 
+    /**
+     * gets sections duration (optional time unit)
+     *
+     * @author dawen
+     * @since 2013-08-23
+     *
+     * @param array $aPeriods
+     * @param int $iDecimals
+     * @param bool $bAddTimeUnit
+     *
+     * @return string
+     */
     private function getSectionDuration(array $aPeriods, $iDecimals = 3, $bAddTimeUnit = false)
     {
         $_fDuration = 0;
@@ -125,6 +215,17 @@ class StopWatch
         return Util::getReadableTime($_fDuration, $bAddTimeUnit, $iDecimals);
     }
 
+    /**
+     * gets section memory usage (optional size unit)
+     *
+     * @author dawen
+     * @since 2013-08-23
+     *
+     * @param array $aPeriods
+     * @param bool $bFormat
+     *
+     * @return int|null|string
+     */
     private function getSectionMemoryUsage(array $aPeriods, $bFormat = false)
     {
         $_iMemoryUsage = 0;

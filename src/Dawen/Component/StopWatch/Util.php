@@ -11,6 +11,17 @@ namespace Dawen\Component\StopWatch;
 class Util
 {
 
+    /**
+     * formats a size in bytes into the unit and returns a string
+     * format param must be a sprintf format.
+     *
+     * @author dawen
+     * @since 2013-08-23
+     *
+     * @param int $iSize
+     * @param null|string $sFormat
+     * @return string
+     */
     public static function getReadableFileSize($iSize, $sFormat = null) {
         // adapted from code at http://aidanlister.com/repos/v/function.size_readable.php
         $_aSizes = array('bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
@@ -42,6 +53,18 @@ class Util
         return sprintf($sFormat, $iSize, $_sSizeString);
     }
 
+    /**
+     * formats a float into  readable time and cuts the decimals
+     * time must be a float given by microtime(true)
+     *
+     * @author dawen
+     * @since 2013-08-23
+     *
+     * @param float $fTime
+     * @param bool $bAddTimeUnit
+     * @param int $iDecimals
+     * @return string
+     */
     public static function getReadableTime($fTime, $bAddTimeUnit = true,$iDecimals = 3)
     {
         $_fRet = $fTime;
