@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by JetBrains PhpStorm.
- * User: dawen
+ * User: da-wen
  * Date: 04.08.13
  * Time: 11:17
  * To change this template use File | Settings | File Templates.
@@ -171,7 +171,7 @@ class StopWatch
     }
 
     /**
-     * stops a period (sets start microtime and memroy usage)
+     * stops a period (sets start microtime and memory usage)
      *
      * @author dawen
      * @since 2013-08-23

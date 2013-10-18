@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by JetBrains PhpStorm.
- * User: dawen
+ * User: da-wen
  * Date: 04.08.13
  * Time: 11:27
  * To change this template use File | Settings | File Templates.
@@ -133,7 +133,7 @@ class Period
     }
 
     /**
-     * gets the microtime sd flost or formatted string of the endpoint
+     * gets the microtime sd float or formatted string of the endpoint
      *
      * @author dawen
      * @since 2013-08-23

@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by JetBrains PhpStorm.
- * User: dawen
+ * User: da-wen
  * Date: 17.08.13
  * Time: 13:07
  * To change this template use File | Settings | File Templates.
@@ -33,7 +33,9 @@ class Util
 
         $_sLastSizeString = end($_aSizes);
 
+        $_sSize = '';
         foreach ($_aSizes as $_sSizeString) {
+            $_sSize = $_sSizeString;
             if ($iSize < 1024)
             {
                 break;
@@ -45,7 +47,7 @@ class Util
             }
         }
 
-        if ($_sSizeString == $_aSizes[0])
+        if ($_sSize == $_aSizes[0])
         {
             $sFormat = '%01d %s';
         } // Bytes aren't normally fractional

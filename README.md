@@ -2,7 +2,7 @@ StopWatch
 =========
 
 simple, not complex stopwatch.
-Measure you applications on time taken base and memory usage.
+Measure your applications based on time taken and memory usage.
 
 
 Usage
